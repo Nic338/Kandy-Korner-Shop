@@ -8,7 +8,7 @@ export const ProductsList = () => {
     const [filteredProducts, setFiltered] = useState([])
     const localKandyUser = localStorage.getItem("kandy_user")
     const kandyUserObject = JSON.parse(localKandyUser)
-
+    const navigate = useNavigate()
 //fetch call to get initial state of products
 useEffect(() => {
         fetch(`http://localhost:8088/products?_sort=name&_order=asc&_expand=productType`)
@@ -48,6 +48,7 @@ return <>
         kandyUserObject.staff ? <>
         <button onClick={ () => { setTopPriceProducts(true) } }>Top Price Products</button>
         <button onClick={ () => { setTopPriceProducts(false) } }>Show All</button>
+        <button onClick={ () => navigate("/product/create")}>Create New Product</button>
         </>
         : <>
         <button onClick={ () => { setTopPriceProducts(true) } }>Top Price Products</button>
