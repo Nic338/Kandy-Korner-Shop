@@ -1,6 +1,7 @@
 import { useState } from "react"
 import { ProductSearch } from "./ProductSearch"
 import { ProductList } from "./ProductList"
+import { FoundProducts } from "./FoundProducts"
 
 //parent container for product search and product list
 export const ProductContainer = () => {
@@ -9,8 +10,9 @@ export const ProductContainer = () => {
 
 return <>
 
-<ProductSearch setterFuction={setSearchTerms} />
-<ProductList searchTermState={searchTerms} />
+<ProductSearch setterFunction={setSearchTerms} />
+
+<FoundProducts searchTermState={searchTerms} />
 
 </>
 

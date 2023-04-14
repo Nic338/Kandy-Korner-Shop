@@ -76,7 +76,7 @@ return <>
         {
             filteredProducts.map(
                 (product) => {
-                    return <section className="location" key={`location--${product.id}`}>
+                    return <section className="location" key={`product--${product.id}`}>
                         <header>{product.name} ({product.productType.typeName})</header>
                         <footer>${product.price}</footer>
 
