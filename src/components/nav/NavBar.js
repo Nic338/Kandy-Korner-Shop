@@ -1,25 +1,20 @@
-import { Link, useNavigate } from "react-router-dom"
 import "./NavBar.css"
+import { EmployeeNav } from "./EmployeeNav"
+import { CustomerNav } from "./CustomerNav"
 
 export const NavBar = () => {
-    const navigate = useNavigate()
 
-    return (
-        <ul className="navbar">
-            <li className="navbar__item active">
-                <Link className="navbar__link" to="/locations">Locations</Link>
-            </li>
-            <li className="navbar__item active">
-                <Link className="navbar__link" to="/products">Products</Link>
-            </li>
-            <li className="navbar__item navbar__logout">
-                <Link className="navbar__link" to="" onClick={() => {
-                    localStorage.removeItem("kandy_user")
-                    navigate("/", {replace: true})
-                }}>Logout</Link>
-            </li>
-            
-        </ul>
-    )
+    const localKandyUser = localStorage.getItem("kandy_user")
+    const kandyUserObject = JSON.parse(localKandyUser)
+    // created two higher order components to seperate the employee views from the customer views
+    if(kandyUserObject.staff) {
+        //return employeenav
+        return <EmployeeNav />
+    }
+    else {
+        //return customernav
+        return <CustomerNav />
+    }
 }
+
 

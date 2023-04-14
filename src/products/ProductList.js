@@ -2,14 +2,27 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./products.css"
 
-export const ProductsList = () => {
+export const ProductList = ({ searchTermState }) => {
     const [products, setProducts] = useState([])
     const [topPrice, setTopPriceProducts] = useState(false)
     const [filteredProducts, setFiltered] = useState([])
     const localKandyUser = localStorage.getItem("kandy_user")
     const kandyUserObject = JSON.parse(localKandyUser)
     const navigate = useNavigate()
-//fetch call to get initial state of products
+
+useEffect(() => {
+    const searchedProducts =  products.filter(product => {
+        return product.name.toLowerCase().startsWith(searchTermState.toLowerCase())
+    })
+    setFiltered(searchedProducts)
+},
+[searchTermState]
+)
+
+
+
+
+    //fetch call to get initial state of products
 useEffect(() => {
         fetch(`http://localhost:8088/products?_sort=name&_order=asc&_expand=productType`)
         .then(response => response.json())
@@ -19,13 +32,13 @@ useEffect(() => {
     },
     []
 )
-useEffect(() => {
-    if(kandyUserObject.staff) {
-        setFiltered(products)
-    }
-},
-[ products ]
-)
+// useEffect(() => {
+//     if(kandyUserObject.staff) {
+//         setFiltered(products)
+//     }
+// },
+// [ products ]
+// )
 
 
 
