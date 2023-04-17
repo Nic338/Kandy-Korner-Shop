@@ -1,5 +1,6 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { Types } from "./ProductTypes";
 
 export const ProductForm = () => {
 //default properties of the initial state of the object
@@ -9,7 +10,7 @@ export const ProductForm = () => {
         price: ""
 
     })
-
+    const [productTypes, updateTypes] = useState([])
     const navigate = useNavigate()
     const localKandyUser = localStorage.getItem("kandy_user")
     const kandyUserObject = JSON.parse(localKandyUser)
@@ -35,7 +36,20 @@ export const ProductForm = () => {
                 navigate("/products")
             })
     }
-
+    useEffect(
+        () => {
+            fetch(`http://localhost:8088/productTypes`)
+            .then(response => response.json())
+            .then(data => {
+                updateTypes(data)
+            })
+        }
+    )
+    const selectList = (event) => {
+        const copy = {...product}
+        copy.productTypeId = event.target.value
+        update(copy)
+    }
 
     return (
         <form className="productForm">
@@ -60,7 +74,7 @@ export const ProductForm = () => {
             <fieldset>
                 <div className="form-group">
                     <label  htmlFor="type">Product Type</label>
-                    <input 
+                    {/* <input 
                         type="text"
                         className="form-control"
                         placeholder="TypeId of new product"
@@ -70,7 +84,8 @@ export const ProductForm = () => {
                             copy.productTypeId = event.target.value
                             update(copy)
                         }
-                    } />
+                    } /> */}
+                    {<Types types={productTypes} product={product} selectList={selectList} />}
                 </div>
             </fieldset>
             <fieldset>

@@ -20,7 +20,7 @@ export const CustomerDetails = () => {
     return <section className="customer">
         <header className="customer__header">{customer?.user?.name}</header>
         <div>Email:{customer?.user?.email}</div>
-        <footer className="customer__footer">Loyalty Number:{customer?.loyaltyNumber}</footer>
+        <footer className="customer__footer">Loyalty Number: {customer?.loyaltyNumber}</footer>
 
     </section>
 }
