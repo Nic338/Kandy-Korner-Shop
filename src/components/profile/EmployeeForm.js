@@ -4,9 +4,9 @@ import { useNavigate } from "react-router-dom"
 export const EmployeeForm = () => {
     //initial state for profile
     const [customerProfile, updateCustomerProfile] = useState({
-        userId: 0,
         loyaltyNumber: 0
     })
+    const [loyaltyNumber, updateLoyaltyNumber] = useState([])
     const {customerId} = useParams()
     const navigate = useNavigate()
     useEffect(
@@ -24,18 +24,39 @@ export const EmployeeForm = () => {
         event.preventDefault()
 
         // fetch call to update the loyaltyNumber of the given customer
-
-        return fetch(`http://localhost:8088/customers/${customerProfile.id}`, {
-            method: "PUT",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify(customerProfile)
-        })
-        .then(response => response.json())
-        .then(() => {
-            navigate("/customers")
-        })
+       return fetch(`http://localhost:8088/customers`)
+                .then(response => response.json())
+                .then((loyaltyNumber) => {
+                    updateLoyaltyNumber(loyaltyNumber)
+                })
+                .then(fetch(`http://localhost:8088/customers/${customerProfile.id}`, {
+                        method: "PUT",
+                        headers: {
+                            "Content-Type": "application/json"
+                        },
+                        body: JSON.stringify({
+                            id: customerProfile.id,
+                            userId: customerProfile.userId,
+                            loyaltyNumber: customerProfile.loyaltyNumber
+                        })
+                    })
+                    .then(response => response.json())
+                    .then(() => {
+                        navigate("/customers")
+                    }))
+        // return fetch(`http://localhost:8088/customers/${customerProfile.id}`, {
+        //     method: "PATCH",
+        //     headers: {
+        //         "Content-Type": "application/json"
+        //     },
+        //     body: JSON.stringify({
+        //         loyaltyNumber: customerProfile.loyaltyNumber
+        //     })
+        // })
+        // .then(response => response.json())
+        // .then(() => {
+        //     navigate("/customers")
+        // })
     }
     return (
         <>
@@ -61,6 +82,7 @@ export const EmployeeForm = () => {
                                 const copy = {...customerProfile}
                                 copy.loyaltyNumber = parseInt(evt.target.value)
                                 updateCustomerProfile(copy)
+                                // console.log(copy)
                             }
                         } />
                 </div>
