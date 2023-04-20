@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react"
 import { useParams } from "react-router-dom"
+import { getCustomerDetails } from "../ApiManager"
 
 export const CustomerDetails = () => {
     const {customerId} = useParams()
@@ -7,8 +8,7 @@ export const CustomerDetails = () => {
 
     useEffect(
         () => {
-            fetch(`http://localhost:8088/customers?_expand=user&userId=${customerId}`)
-            .then(response => response.json())
+            getCustomerDetails(customerId)
             .then((data) => {
                 //convert the data we get from the fetch above to be the employee's info that we see when we click on their specific name
                 const singleCustomer = data[0]

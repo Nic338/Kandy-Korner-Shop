@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react"
 // import { useParams } from "react-router-dom"
 import { Order } from "./Order"
+import { getPurchasesWithDetails } from "../ApiManager"
 
 
 export const OrderList = () => {
@@ -13,8 +14,7 @@ const kandyUserObject = JSON.parse(localKandyUser)
 
 useEffect(
     () => {
-    fetch(`http://localhost:8088/purchases?_expand=product`)
-    .then(response => response.json())
+    getPurchasesWithDetails()
     .then((orderArray) => {
         setOrders(orderArray)
     })    

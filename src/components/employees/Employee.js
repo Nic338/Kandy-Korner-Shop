@@ -1,22 +1,13 @@
 // import { Link } from "react-router-dom"
+import { changeEmployeeToUser, deleteEmployeeData } from "../ApiManager"
 import "./employees.css"
 
 export const Employee = ({employeeObject, getAllEmployees}) => {
    
 const FireEmployee = () => {
     return <button onClick={() => {
-        fetch(`http://localhost:8088/users/${employeeObject.userId}`, {
-            method: "PATCH",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify({
-                    isStaff: false
-                })
-        })
-        .then(fetch(`http://localhost:8088/employees/${employeeObject.id}`, {
-                method: "DELETE"
-            }))
+        changeEmployeeToUser(employeeObject)
+        .then(deleteEmployeeData(employeeObject))
         .then(() => {
             getAllEmployees()
         })

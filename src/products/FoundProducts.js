@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./products.css"
+import { getProductsSorted } from "../components/ApiManager";
 
 export const FoundProducts = ({ searchTermState }) => {
     const [products, setProducts] = useState([])
@@ -24,8 +25,7 @@ useEffect(() => {
 
     //fetch call to get initial state of products
 useEffect(() => {
-        fetch(`http://localhost:8088/products?_sort=name&_order=asc`)
-        .then(response => response.json())
+        getProductsSorted()
         .then((productArray) => {
             setProducts(productArray)
         })

@@ -1,6 +1,7 @@
 
 import { useState, useEffect } from "react"
 import { useNavigate } from "react-router-dom"
+import { createNewEmployee, createNewUser, getAllUsers } from "../ApiManager"
 
 
 export const EmployeeForm = () => {
@@ -23,8 +24,8 @@ export const EmployeeForm = () => {
 
 
 useEffect(
-    () => {fetch(`http://localhost:8088/users`)
-.then(dirtyUsers => dirtyUsers.json())
+    () => {
+        getAllUsers()
 .then((cleanUsers) => {setUserArray(cleanUsers)})
 }
 )
@@ -38,14 +39,7 @@ useEffect(
             isStaff: true
         }
 
-        return fetch(`http://localhost:8088/users`, {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify(userToSendToAPI)
-        })
-            .then(response => response.JSON)
+        return createNewUser(userToSendToAPI)
 
     }
 
@@ -60,14 +54,7 @@ useEffect(
             locationId: parseInt(employee.locationId)
         }
 
-        return fetch(`http://localhost:8088/employees`, {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify(employeeToSendToAPI)
-        })
-            .then(response => response.JSON)
+        return createNewEmployee(employeeToSendToAPI)
             .then(() => {
                 navigate("/employees")
             })

@@ -1,22 +1,21 @@
 import { useState, useEffect } from "react"
 import { Employee } from "./Employee"
 import "./employees.css"
+import { getAllEmployeesWithLocationAndDetails } from "../ApiManager"
 
 export const EmployeeList = () => {
     const [employees, setEmployees] = useState([])
 
     useEffect(
         () => {
-        fetch(`http://localhost:8088/employees?_expand=location&_expand=user`)
-            .then(response => response.json())
+        getAllEmployeesWithLocationAndDetails()
             .then((employeeArray) => {
                 setEmployees(employeeArray)
             })
     },[]
     )
 const getAllEmployees = () => {
-    fetch(`http://localhost:8088/employees?_expand=location&_expand=user`)
-    .then(response => response.json())
+    getAllEmployeesWithLocationAndDetails()
     .then((employeeArray) => {
         setEmployees(employeeArray)
     })

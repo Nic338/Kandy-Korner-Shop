@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react"
 import { Customer } from "./Customer"
 import "./customers.css"
+import { getAllCustomers } from "../ApiManager"
 
 export const CustomerList = () => {
      const [customers, setCustomers] = useState([])
@@ -8,8 +9,7 @@ export const CustomerList = () => {
 
      useEffect(
         () => {
-            fetch(`http://localhost:8088/users?isStaff=false`)
-            .then(response => response.json())
+            getAllCustomers()
             .then((customerArray) => {
                 setCustomers(customerArray)
             })

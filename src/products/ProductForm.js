@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Types } from "./ProductTypes";
+import { createNewProductData, getProductTypes } from "../components/ApiManager";
 
 export const ProductForm = () => {
 //default properties of the initial state of the object
@@ -24,22 +25,14 @@ export const ProductForm = () => {
             price: product.price
         }
 
-        return fetch(`http://localhost:8088/products`,  {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify(productToSendToAPI)
-        })
-            .then(response => response.JSON)
+        return createNewProductData(productToSendToAPI)
             .then(() => {
                 navigate("/products")
             })
     }
     useEffect(
         () => {
-            fetch(`http://localhost:8088/productTypes`)
-            .then(response => response.json())
+            getProductTypes()
             .then(data => {
                 updateTypes(data)
             })

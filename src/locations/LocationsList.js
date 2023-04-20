@@ -1,14 +1,14 @@
 import { useEffect, useState } from "react";
 import "./locations.css"
 import { useNavigate } from "react-router-dom";
+import { getLocations } from "../components/ApiManager";
 
 export const LocationsList = () => {
     const [locations, setLocations] = useState([])
     const navigate = useNavigate()
 
 useEffect( () => {
-    fetch(`http://localhost:8088/locations`)
-    .then(response => response.json())
+    getLocations()
     .then((locationArray) => {
      setLocations(locationArray)   
     })

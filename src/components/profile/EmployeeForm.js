@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react"
 import { useParams } from "react-router-dom"
 import { useNavigate } from "react-router-dom"
+import { getCustomerDetails, getCustomers, updateCustomerInfo } from "../ApiManager"
 export const EmployeeForm = () => {
     //initial state for profile
     const [customerProfile, updateCustomerProfile] = useState({
@@ -11,8 +12,7 @@ export const EmployeeForm = () => {
     const navigate = useNavigate()
     useEffect(
         () => {
-            fetch(`http://localhost:8088/customers?_expand=user&userId=${customerId}`)
-            .then(response => response.json())
+            getCustomerDetails(customerId)
             .then(data => {
                 const customerObject = data[0]
                 updateCustomerProfile(customerObject)
@@ -24,23 +24,11 @@ export const EmployeeForm = () => {
         event.preventDefault()
 
         // fetch call to update the loyaltyNumber of the given customer
-       return fetch(`http://localhost:8088/customers`)
-                .then(response => response.json())
+       return getCustomers()
                 .then((loyaltyNumber) => {
                     updateLoyaltyNumber(loyaltyNumber)
                 })
-                .then(fetch(`http://localhost:8088/customers/${customerProfile.id}`, {
-                        method: "PUT",
-                        headers: {
-                            "Content-Type": "application/json"
-                        },
-                        body: JSON.stringify({
-                            id: customerProfile.id,
-                            userId: customerProfile.userId,
-                            loyaltyNumber: customerProfile.loyaltyNumber
-                        })
-                    })
-                    .then(response => response.json())
+                .then(updateCustomerInfo(customerProfile)
                     .then(() => {
                         navigate("/customers")
                     }))
